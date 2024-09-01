@@ -9,7 +9,7 @@ load_dotenv()
 api_key = os.getenv("HYPIXEL_API_KEY")
 
 uuid = input("Input the UUID (with dashes!) of the player you want to search: ")
-endpoint = str(input("What endpoint would you like to search?"))
+endpoint = str(input("What endpoint would you like to search? "))
 
 base_endpoint_url = "https://api.hypixel.net/v2/"
 params = {
@@ -28,7 +28,7 @@ if response.status_code == 200:
     data = response.json()
 
     # Check for a specific key and its value
-    key_to_check = "ranksGiven"
+    key_to_check = str(input("Which key are you looking for? "))
     if key_to_check in data:
         value = data[key_to_check]
         print(f"The value of '{key_to_check}' is: {value}")
