@@ -2,4 +2,4 @@
 
 Example script showcasing how to access the Hypixel API using Python and parse for specific keys
 
-Commented annotations coming later
+More commented annotations coming later
