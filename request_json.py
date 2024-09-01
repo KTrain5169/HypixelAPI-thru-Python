@@ -1,6 +1,8 @@
 import requests
 import textwrap
+import json
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 
 # URL of the API endpoint
@@ -40,20 +42,32 @@ if response.status_code == 200:
 
     key_to_check = str(input("What key are you looking for? "))
 
-    # Check for a specific object, key, and its value
-    result = json_key_search(data, key_to_check)
+    if key_to_check.lower() == "all" or key_to_check.lower() == "all of them":
+        now = datetime.now()
+        current_time = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-    if result is not None:
-        print(f"The value of '{key_to_check}' is {result}")
-        with open("output.txt", "a") as f:
-            f.write('\n')
-            f.write('--BEGIN COPY FROM HERE--\n')
-            f.write(f"UUID: {uuid}, endpoint: {endpoint}, checked key {key_to_check}\n")
-            wrap_text = f"Result: {result}"
-            f.write(textwrap.fill(f"Result: {result}"))
-            f.write('\n--STOP COPYING HERE--')
-            f.write("\n")
+        filename = f"Hypixel_API_{endpoint}_endpoint_{current_time}.json"
+
+        with open(filename, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+        
+        print(f"JSON file saved! Find it at {filename}")
+    
     else:
-        print(f"Couldn't find '{key_to_check}' in the JSON response.")
+        # Check for a specific object, key, and its value
+        result = json_key_search(data, key_to_check)
+
+        if result is not None:
+            print(f"The value of '{key_to_check}' is {result}")
+            with open("output.txt", "a") as f:
+                f.write('\n')
+                f.write('--BEGIN COPY FROM HERE--\n')
+                f.write(f"UUID: {uuid}, endpoint: {endpoint}, checked key {key_to_check}\n")
+                wrap_text = f"Result: {result}"
+                f.write(textwrap.fill(f"Result: {result}"))
+                f.write('\n--STOP COPYING HERE--')
+                f.write("\n")
+        else:
+            print(f"Couldn't find '{key_to_check}' in the JSON response.")
 else:
     print(f"Request failed with status code: {response.status_code}")

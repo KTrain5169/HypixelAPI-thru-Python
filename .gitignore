@@ -1,5 +1,6 @@
-# Output txt
+# Output files
 output.txt
+Hypixel_API_*_endpoint_*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
