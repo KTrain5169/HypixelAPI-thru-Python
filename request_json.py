@@ -9,9 +9,11 @@ load_dotenv()
 api_key = os.getenv("HYPIXEL_API_KEY")
 
 uuid = input("Input the UUID (with dashes!) of the player you want to search: ")
+endpoint = str(input("What endpoint would you like to search?"))
 
-base_endpoint_url = "https://api.hypixel.net/v2/player"
+base_endpoint_url = "https://api.hypixel.net/v2/"
 params = {
+    'endpoint': endpoint,
     'uuid': uuid,
     'key': api_key
 }
