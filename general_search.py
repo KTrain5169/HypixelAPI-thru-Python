@@ -5,8 +5,6 @@ from dotenv import load_dotenv
 from datetime import datetime
 import os
 
-# URL of the API endpoint
-
 load_dotenv()
 
 api_key = os.getenv("HYPIXEL_API_KEY")
