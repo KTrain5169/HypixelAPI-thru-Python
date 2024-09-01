@@ -44,7 +44,7 @@ if response.status_code == 200:
         now = datetime.now()
         current_time = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-        filename = f"Hypixel_API_{endpoint}_endpoint_{current_time}.json"
+        filename = f"Hypixel_API_{endpoint}_endpoint_{uuid}_at_{current_time}.json"
 
         with open(filename, 'w') as json_file:
             json.dump(data, json_file, indent=4)
