@@ -8,18 +8,28 @@ load_dotenv()
 
 api_key = os.getenv("HYPIXEL_API_KEY")
 
+def json_key_search(data, key):
+    if key in data:
+        return data[key]
+    for k, v in data.items():
+        if isinstance(v, dict):
+            result = json_key_search(v, key)
+            if result is not None:
+                return result
+    return None
+
 uuid = input("Input the UUID (with dashes!) of the player you want to search: ")
 endpoint = str(input("What endpoint would you like to search? "))
 
-base_endpoint_url = "https://api.hypixel.net/v2/"
+url = f"https://api.hypixel.net/v2/{endpoint}"
+
 params = {
-    'endpoint': endpoint,
     'uuid': uuid,
     'key': api_key
 }
 
 # Send a GET request
-response = requests.get(base_endpoint_url, params=params)
+response = requests.get(url, params=params)
 
 # Check if the request was successful
 if response.status_code == 200:
@@ -27,12 +37,14 @@ if response.status_code == 200:
     # Parse the JSON response
     data = response.json()
 
-    # Check for a specific key and its value
-    key_to_check = str(input("Which key are you looking for? "))
-    if key_to_check in data:
-        value = data[key_to_check]
-        print(f"The value of '{key_to_check}' is: {value}")
+    key_to_check = str(input("What key are you looking for? "))
+
+    # Check for a specific object, key, and its value
+    result = json_key_search(data, key_to_check)
+
+    if result is not None:
+        print(f"The value of '{key_to_check}' is {result}")
     else:
-        print(f"'{key_to_check}' not found in the JSON response.")
+        print(f"Couldn't find '{key_to_check}' in the JSON response.")
 else:
     print(f"Request failed with status code: {response.status_code}")
