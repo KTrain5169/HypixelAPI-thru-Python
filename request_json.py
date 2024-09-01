@@ -1,4 +1,5 @@
 import requests
+import textwrap
 from dotenv import load_dotenv
 import os
 
@@ -46,8 +47,11 @@ if response.status_code == 200:
         print(f"The value of '{key_to_check}' is {result}")
         with open("output.txt", "a") as f:
             f.write('\n')
+            f.write('--BEGIN COPY FROM HERE--\n')
             f.write(f"UUID: {uuid}, endpoint: {endpoint}, checked key {key_to_check}\n")
-            f.write(f"Result: {result}")
+            wrap_text = f"Result: {result}"
+            f.write(textwrap.fill(f"Result: {result}"))
+            f.write('\n--STOP COPYING HERE--')
             f.write("\n")
     else:
         print(f"Couldn't find '{key_to_check}' in the JSON response.")
